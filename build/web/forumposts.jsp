@@ -33,6 +33,8 @@
             </div>
 
             <div id="content">
+
+                <%-- ######## Vulnerable Code Start ######## --%>
                 <%
                     Connection con = new DBConnect().connect(getServletContext().getRealPath("/WEB-INF/config.properties"));
 
@@ -52,6 +54,23 @@
 
                     out.print("<br/><br/><a href='forum.jsp'>Return to Forum &gt;&gt;</a>");
                 %>
+                <%-- ######## Vulnerable Code End ######## --%>
+
+                <%--######## Code Fix ######## 
+                    <%-- Use a prepared statement to execute query. --%>    
+
+                    Connection con = new DBConnect().connect(getServletContext().getRealPath("/WEB-INF/config.properties"));
+
+                    String postid = request.getParameter("postid");
+                    if(postid != null){
+                        String query = ("select * from posts where id=" + postid");
+                        PreparedStatement prepStmt = connection.prepareStatement(query);
+                        prepStmt.setString(1, postid);
+                        ResultSet result = prepStmt.executeQuery();
+                    }
+
+                --%>
+
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>

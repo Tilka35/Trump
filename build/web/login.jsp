@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<%-- ######## Vulnerable Code Start ######## --%>
  <%
  String username="";
  String password="";
@@ -14,8 +15,30 @@
             password= c.getValue();
         }
   }
-
  %>
+
+ <%-- ######## Vulnerable Code End ######## --%>
+
+ <%-- ######## Vulnerable Code Fix ######## 
+ 
+ String username="";
+ String password="";
+ Cookie[] cookies = request.getCookies();
+
+ sanitizedUsrnm = filter_var(username, FILTER_SANITIZE_STRING);
+ sanitizedPswd = filter_var(password, FILTER_SANITIZE_STRING);
+
+ if (cookies != null)
+  for (Cookie c : cookies) {
+        if ("sanitizedUsrnm".equals(c.getName())) {
+         sanitizedUsrnm c.getValue();
+        }
+        else if("sanitizedPswd".equals(c.getName()))
+        {
+            sanitizedPswd= c.getValue();
+        }
+    }
+ --%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
