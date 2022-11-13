@@ -58,6 +58,7 @@
 
                 <%--######## Code Fix ######## 
                     <%-- Use a prepared statement to execute query. --%>    
+                    
 
                     Connection con = new DBConnect().connect(getServletContext().getRealPath("/WEB-INF/config.properties"));
 
@@ -68,7 +69,7 @@
                         prepStmt.setString(1, postid);
                         ResultSet result = prepStmt.executeQuery();
                     }
-
+                    
                 --%>
 
                 <p>&nbsp;</p>
