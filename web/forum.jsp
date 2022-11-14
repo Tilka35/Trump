@@ -52,14 +52,42 @@
                         String title = request.getParameter("title");
 
                 %>
+
+                <%-- ######## Vulnerable Code Start ######## --%>
                 <%        if (con != null && !con.isClosed()) {
                             Statement stmt = con.createStatement();
                             stmt.executeUpdate("INSERT into posts(content,title,user) values ('" + content + "','" + title + "','" + user + "')");
                             out.print("Successfully posted");
                         }
                     }
-
+                
                 %>
+                <%-- ######## Vulnerable Code End ######## --%>
+                
+
+                <%-- ######## Vulnerable Code Fix ######## (Prepared Statement, Ideally encode HTML)
+                    <%-- response.setContentType( "text/html; charset=utf-8" ); --%>
+                        
+
+                    if(request.getParameter("post") != null){
+                        String userId = request.getParameter("user");
+                        String postContent = request.getParameter("content");
+                        String postTitle = request.getParameter("title");
+
+                        fn:escapeXml(userId)
+                        fn:escapeXml(postContent)
+                        fn:escapeXml(postTitle)
+
+                        if(con != null && !con.isClosed()){
+                             String query = ("INSERT into posts(postContent, postTitle, userId) values ('" + postContent + "','" + postTitle + "','" + userId + "')");
+                             PreparedStatement prepStmt = connection.prepareStatement(query);
+                             prepStmt.setString(1, postContent, postTitle, userId);
+                             ResultSet result = prepStmt.executeQuery();
+                        }
+                    }
+                
+                --%>
+
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
@@ -79,6 +107,8 @@
                         }
                         out.println("</table>");
                     }
+
+                
                 %>
 
                 <div id="footer"><h3><a href="http://www.trump.com/">Trump Web Design</a></h3></div>
