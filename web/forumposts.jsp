@@ -35,6 +35,7 @@
             <div id="content">
 
                 <%-- ######## Vulnerable Code Start ######## --%>
+                <%-- SQL Injection --%>
                 <%
                     Connection con = new DBConnect().connect(getServletContext().getRealPath("/WEB-INF/config.properties"));
 
@@ -66,7 +67,7 @@
                     if(postid != null){
                         String query = ("select * from posts where id=" + postid");
                         PreparedStatement prepStmt = connection.prepareStatement(query);
-                        prepStmt.setString(1, postid);
+                        prepStmt.setString(postid);
                         ResultSet result = prepStmt.executeQuery();
                     }
                     
