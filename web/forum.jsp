@@ -74,6 +74,15 @@
                         String postContent = request.getParameter("content");
                         String postTitle = request.getParameter("title");
 
+                        function escape(postContent) {
+                            return postContent.replace(/&/g, "&amp;")
+                                  .replace(/</g, "&lt;")
+                                  .replace(/>/g, "&gt;")
+                                  .replace(/"/g, "&quot;")
+                                  .replace(/'/g, "&#39;");        
+                         
+                        }
+
                         fn:escapeXml(userId)
                         fn:escapeXml(postContent)
                         fn:escapeXml(postTitle)
